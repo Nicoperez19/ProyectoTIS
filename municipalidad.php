@@ -1,0 +1,99 @@
+<?php
+    require("conexion.php");
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="estilos.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Municipalidad</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+</head>
+<body class="fondo">
+ 
+    <div class="container-fluid">
+    
+        <div class="row">
+            <div class="col-12 p-4">
+                <h1 class="text-center fw-bold mt-4 mb-6 "> Municipalidad</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 col-md-12 pb-4  p-4 bg-light ">
+                <form action="ingresar_muni.php" method="POST">
+                    <input type="text" name="codigo_muni" placeholder="Código">
+                    <input type="text" name="nombre_muni" placeholder="Nombre">
+                    <input type="text" name="direccion_muni" placeholder="Dirección">
+                    <input type="text" name="telefono_muni" placeholder="Teléfono">
+                    <input type="text" name="correo_muni" placeholder="Correo">
+                    <button type="button,submit" class="btn btn-success">Ingresar</button>
+                </form>
+            </div>
+            <div class="col-lg-4 col-md-12 p-4 bg-light text-center">
+                <form action= "municipalidad.php" method="POST">
+                    <input type="text" name="buscar" placeholder="Código Municipalidad"> 
+                    <button type="submit" value= "Buscar"class="btn btn-success">Buscar</button>
+                </form>
+           </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 bg-light border-2">
+
+                <table style="width:100%">
+                    <tr class="color bg-black text-white">
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Teléfono</th>
+                        <th>Correo</th>
+                        <th>Acciones</th>
+                    </tr>
+
+                    <?php
+                    if(!isset($_POST['buscar'])){
+                        $_POST['buscar'] ="";
+                        $buscar = $_POST['buscar'];
+                    }
+                    $buscar = $_POST['buscar'];
+                    $consulta= "SELECT* FROM municipalidad WHERE codigo_muni LIKE '%".$buscar."%'";
+                    $resultado= mysqli_query($conexion,$consulta);
+
+                    while($row= mysqli_fetch_assoc($resultado)){
+                        $codigo_recibido = $row["codigo_muni"];
+                        $nombre_recibido = $row["nombre_muni"];
+                        $direccion_recibido = $row["direccion_muni"];
+                        $telefono_recibido = $row["telefono_muni"];
+                        $correo_recibido = $row["correo_muni"];
+                        echo "<tr>";
+                        echo "<td>".$codigo_recibido."</td>";
+                        echo "<td>".$nombre_recibido."</td>";
+                        echo "<td>".$direccion_recibido."</td>";
+                        echo "<td>".$telefono_recibido."</td>";
+                        echo "<td>".$correo_recibido."</td>";
+                        echo "<td><a href='eliminar_muni.php?seleccionado=".$codigo_recibido."'>Eliminar</a> <a href='modificar_muni.php?seleccionado=".$codigo_recibido."'>Modificar</a></td>";
+                        echo "</tr>";
+                    }
+                    ?>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 boton p-4">
+                <button onclick="location.href='menu.php'" class="btn btn-outline-dark">Atrás</button>   
+            </div>
+        </div>
+    </div>
+
+    
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</body>
+</html>

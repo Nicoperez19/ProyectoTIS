@@ -1,0 +1,12 @@
+.fondo{
+    background-image: url(fondo.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.boton{
+    position: relative;
+    margin-top: 12%;
+}
+.color{
+    background:blueviolet;
+}
